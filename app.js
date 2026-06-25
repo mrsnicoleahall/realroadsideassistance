@@ -83,6 +83,14 @@
     return base;
   }
 
+  // Deposit is the service price or $40 — whichever is smaller.
+  // Quote services (no fixed price) keep the full $40.
+  function depositAmount() {
+    var s = currentService();
+    if (!s || s.quote) return DEPOSIT;
+    return Math.min(servicePrice(), DEPOSIT);
+  }
+
   /* =========================================================
      RENDER: service showcase cards (top of page menu)
      ========================================================= */
@@ -383,8 +391,12 @@
     } else {
       html += row("Service total", money(price), "total");
     }
-    html += row("Deposit due now", money(DEPOSIT) + " (applied to total)", "deposit");
+    var dep = depositAmount();
+    var depNote = (s && !s.quote && dep < DEPOSIT) ? " (full service price)" : " (applied to total)";
+    html += row("Deposit due now", money(dep) + depNote, "deposit");
     $("#review").innerHTML = html;
+    var noteAmt = $("#depNoteAmt");
+    if (noteAmt) noteAmt.textContent = money(dep);
   }
 
   function val(form, name) {
@@ -407,7 +419,7 @@
     }
     fd.append("Timing", timingText() || "");
     fd.append("Service total", (s && s.quote) ? ("Quote — " + s.priceLabel) : money(servicePrice()));
-    fd.append("Deposit", money(DEPOSIT));
+    fd.append("Deposit", money(depositAmount()));
     fd.append("Name", val(f, "name"));
     fd.append("Phone", formatUSPhone(val(f, "phone")));
     fd.append("Email", val(f, "email"));
@@ -452,6 +464,13 @@
   function showSuccess() {
     $("#bookingForm").hidden = true;
     $("#stepNav").hidden = true;
+    // set the deposit amount + Cash App link to match the chosen service
+    var dep = depositAmount();
+    var amt = money(dep);
+    $("#cashappBtn").href = "https://cash.app/$" + CASHTAG + "/" + dep;
+    ["#depAmtText", "#depAmtBadge", "#depAmtSub"].forEach(function (sel) {
+      var el = $(sel); if (el) el.textContent = amt;
+    });
     var ok = $("#success");
     ok.hidden = false;
     ok.scrollIntoView({ behavior: "smooth", block: "center" });
