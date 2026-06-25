@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <title>Real Roadside Assistance — Detailing &amp; Roadside | Book with Day</title>
+  <meta name="description" content="Mobile auto detailing and roadside assistance. Book ASAP or a 3-hour window in the next 2 weeks. $40 deposit locks your slot." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="topbar" id="top">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">REAL ROADSIDE<em>ASSISTANCE</em></span>
+    </a>
+    <a class="call-link" href="tel:+13134887588">
+      <span class="call-dot" aria-hidden="true"></span>
+      313&middot;488&middot;7588
+    </a>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-media" aria-hidden="true">
+      <img src="assets/hero-demon.jpg" alt="" fetchpriority="high" />
+      <div class="hero-veil"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow">Mobile Detailing &amp; Roadside &middot; We Come To You</p>
+      <h1 class="hero-title">
+        BOOK IT.<br /><span class="stroke">LOCK IT.</span><br /><span class="accent">DONE.</span>
+      </h1>
+      <p class="hero-sub">
+        Pick a service, grab the next available 3-hour window or go
+        <strong>ASAP</strong>, and a <strong>$40 deposit</strong> holds your slot. No phone tag.
+      </p>
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-red">Start Booking</a>
+        <a href="#services" class="btn btn-ghost">See Services &amp; Pricing</a>
+      </div>
+      <ul class="hero-strip">
+        <li><span>$40</span>deposit, applied to your service</li>
+        <li><span>3 hr</span>arrival windows</li>
+        <li><span>14 days</span>booking ahead</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="services" id="services">
+    <div class="section-head">
+      <p class="kicker">/ 01 — The Menu</p>
+      <h2>Detail packages<br />&amp; roadside help</h2>
+      <p class="lede">Rims are included in every detail package. Trunk is a +$20 add-on. Brand-new tires run $80 each ($145 for a pair).</p>
+    </div>
+
+    <h3 class="group-label"><span class="num">DET</span> Detailing Packages <em>— pick Sedan or SUV at booking</em></h3>
+    <div class="cards" id="detailingCards"></div>
+
+    <div class="banner">
+      <img src="assets/hellcat-road.jpg" alt="Bright red Dodge Hellcat parked on an open road" />
+      <div class="banner-text">
+        <p class="kicker light">Stranded? We roll out.</p>
+        <h3>Roadside, when you need it.</h3>
+      </div>
+    </div>
+
+    <h3 class="group-label"><span class="num">RDS</span> Roadside Assistance</h3>
+    <div class="cards" id="roadsideCards"></div>
+  </section>
+
+  <!-- ===== BOOKING ===== -->
+  <section class="book" id="book">
+    <div class="section-head">
+      <p class="kicker">/ 02 — Reserve</p>
+      <h2>Book your slot</h2>
+      <p class="lede">Four quick steps. Your details go straight to Day, then you send the deposit to lock it in.</p>
+    </div>
+
+    <div class="booking-shell">
+      <!-- progress -->
+      <ol class="steps" id="stepNav" aria-label="Booking progress">
+        <li data-step="1" class="active"><span>1</span>Service</li>
+        <li data-step="2"><span>2</span>Time</li>
+        <li data-step="3"><span>3</span>Details</li>
+        <li data-step="4"><span>4</span>Confirm</li>
+      </ol>
+
+      <form id="bookingForm" novalidate>
+        <!-- STEP 1: SERVICE -->
+        <fieldset class="step is-active" data-step="1">
+          <legend>What do you need?</legend>
+
+          <div class="seg" role="tablist" aria-label="Service category">
+            <button type="button" class="seg-btn active" data-cat="detailing">Detailing</button>
+            <button type="button" class="seg-btn" data-cat="roadside">Roadside</button>
+          </div>
+
+          <div class="pick-list" id="servicePick"></div>
+
+          <div class="vehicle-row" id="vehicleRow" hidden>
+            <p class="field-label">Vehicle type</p>
+            <div class="seg seg-sm" role="group" aria-label="Vehicle type">
+              <button type="button" class="seg-btn active" data-vehicle="sedan">Sedan</button>
+              <button type="button" class="seg-btn" data-vehicle="suv">SUV / Truck</button>
+            </div>
+            <label class="check">
+              <input type="checkbox" id="trunkAddon" />
+              <span>Add trunk cleaning <em>(+$20)</em></span>
+            </label>
+          </div>
+
+          <div class="step-actions">
+            <span class="spacer"></span>
+            <button type="button" class="btn btn-red next" data-next>Next: Time</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: TIME -->
+        <fieldset class="step" data-step="2">
+          <legend>When works for you?</legend>
+
+          <label class="asap" id="asapBox">
+            <input type="radio" name="timing" value="asap" />
+            <div class="asap-body">
+              <span class="asap-title">ASAP <em>— soonest available</em></span>
+              <span class="asap-sub">Day will text you a confirmed arrival time fast.</span>
+            </div>
+            <span class="asap-flag">FAST</span>
+          </label>
+
+          <p class="or-line"><span>or pick a 3-hour window</span></p>
+
+          <div class="day-scroller" id="dayScroller" role="tablist" aria-label="Choose a day"></div>
+          <div class="slot-grid" id="slotGrid"></div>
+
+          <div class="step-actions">
+            <button type="button" class="btn btn-ghost prev" data-prev>Back</button>
+            <button type="button" class="btn btn-red next" data-next>Next: Details</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: DETAILS -->
+        <fieldset class="step" data-step="3">
+          <legend>Your details</legend>
+
+          <div class="grid-2">
+            <label class="fld">
+              <span>Full name</span>
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label class="fld">
+              <span>Phone</span>
+              <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required />
+            </label>
+          </div>
+
+          <label class="fld">
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" inputmode="email" required />
+          </label>
+
+          <label class="fld">
+            <span>Service address / location</span>
+            <input type="text" name="address" autocomplete="street-address" placeholder="Where should Day meet you?" required />
+          </label>
+
+          <div class="grid-2">
+            <label class="fld">
+              <span>Vehicle <em>(year / make / model)</em></span>
+              <input type="text" name="vehicle_details" placeholder="2018 Dodge Charger" required />
+            </label>
+            <label class="fld">
+              <span>Color</span>
+              <input type="text" name="vehicle_color" placeholder="Red" />
+            </label>
+          </div>
+
+          <label class="fld">
+            <span>Notes <em>(optional)</em></span>
+            <textarea name="notes" rows="3" placeholder="Anything Day should know?"></textarea>
+          </label>
+
+          <div class="step-actions">
+            <button type="button" class="btn btn-ghost prev" data-prev>Back</button>
+            <button type="button" class="btn btn-red next" data-next>Review</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 4: CONFIRM -->
+        <fieldset class="step" data-step="4">
+          <legend>Lock it in</legend>
+
+          <div class="review" id="review"></div>
+
+          <div class="deposit-note">
+            <p>Hit <strong>Submit Booking</strong> to send your request to Day. The next screen has the
+            <strong>$40 deposit</strong> button — your slot is held once the deposit lands.</p>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn btn-ghost prev" data-prev>Back</button>
+            <button type="submit" class="btn btn-red" id="submitBtn">Submit Booking</button>
+          </div>
+          <p class="form-error" id="formError" hidden></p>
+        </fieldset>
+      </form>
+
+      <!-- SUCCESS / DEPOSIT -->
+      <div class="success" id="success" hidden>
+        <div class="success-check" aria-hidden="true">✓</div>
+        <h3>Request sent to Day.</h3>
+        <p class="success-sub">Last step — send your <strong>$40 deposit</strong> on Cash App to lock the slot. Put your <strong>name</strong> in the note.</p>
+
+        <a class="cashapp-btn" id="cashappBtn" href="https://cash.app/$sauxyDay/40" target="_blank" rel="noopener">
+          <span class="ca-icon" aria-hidden="true">$</span>
+          <span class="ca-text">Send $40 deposit<em>to $sauxyDay</em></span>
+          <span class="ca-amt">$40</span>
+        </a>
+
+        <p class="success-fine">Cash App: <strong>$sauxyDay</strong> &middot; Deposit applies to your service total.</p>
+        <button type="button" class="btn btn-ghost" id="resetBtn">Book another</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-mark big" aria-hidden="true"></span>
+        <p class="foot-name">REAL ROADSIDE ASSISTANCE</p>
+        <p class="foot-tag">Mobile detailing &amp; roadside. We come to you.</p>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">Book / Contact</p>
+        <a href="tel:+13134887588">313&middot;488&middot;7588</a>
+        <a href="mailto:day@realroadsideassistance.com">day@realroadsideassistance.com</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">Deposit</p>
+        <p>$40 via Cash App <strong>$sauxyDay</strong></p>
+        <p class="muted">Applied to your service total.</p>
+      </div>
+    </div>
+    <p class="copyright">© <span id="year"></span> Real Roadside Assistance · Owner: Day</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
