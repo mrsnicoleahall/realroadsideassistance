@@ -33,7 +33,7 @@
       <div class="hero-veil"></div>
     </div>
     <div class="hero-inner">
-      <p class="eyebrow">Mobile Detailing &amp; Roadside &middot; We Come To You</p>
+      <p class="eyebrow">Serving Detroit &amp; Surrounding Suburbs &middot; We Come To You</p>
       <h1 class="hero-title">
         BOOK IT.<br /><span class="stroke">LOCK IT.</span><br /><span class="accent">DONE.</span>
       </h1>
@@ -57,12 +57,9 @@
   <section class="services" id="services">
     <div class="section-head">
       <p class="kicker">/ 01 — The Menu</p>
-      <h2>Detail packages<br />&amp; roadside help</h2>
-      <p class="lede">Rims are included in every detail package. Trunk is a +$20 add-on. Brand-new tires run $80 each ($145 for a pair).</p>
+      <h2>Roadside help<br />&amp; detailing</h2>
+      <p class="lede">Brand-new tires run $80 each ($145 for a pair). Rims are included in every detail package; trunk is a +$20 add-on.</p>
     </div>
-
-    <h3 class="group-label"><span class="num">DET</span> Detailing Packages <em>— pick Sedan or SUV at booking</em></h3>
-    <div class="cards" id="detailingCards"></div>
 
     <div class="banner">
       <img src="assets/hellcat-road.jpg" alt="Bright red Dodge Hellcat parked on an open road" />
@@ -74,6 +71,9 @@
 
     <h3 class="group-label"><span class="num">RDS</span> Roadside Assistance</h3>
     <div class="cards" id="roadsideCards"></div>
+
+    <h3 class="group-label"><span class="num">DET</span> Detailing Packages <em>— pick Sedan or SUV at booking</em></h3>
+    <div class="cards" id="detailingCards"></div>
   </section>
 
   <!-- ===== BOOKING ===== -->
@@ -90,7 +90,7 @@
         <li data-step="1" class="active"><span>1</span>Service</li>
         <li data-step="2"><span>2</span>Time</li>
         <li data-step="3"><span>3</span>Details</li>
-        <li data-step="4"><span>4</span>Confirm</li>
+        <li data-step="4"><span>4</span>Deposit</li>
       </ol>
 
       <form id="bookingForm" novalidate>
@@ -99,8 +99,8 @@
           <legend>What do you need?</legend>
 
           <div class="seg" role="tablist" aria-label="Service category">
-            <button type="button" class="seg-btn active" data-cat="detailing">Detailing</button>
-            <button type="button" class="seg-btn" data-cat="roadside">Roadside</button>
+            <button type="button" class="seg-btn active" data-cat="roadside">Roadside</button>
+            <button type="button" class="seg-btn" data-cat="detailing">Detailing</button>
           </div>
 
           <div class="pick-list" id="servicePick"></div>
@@ -169,7 +169,7 @@
 
           <label class="fld">
             <span>Service address / location</span>
-            <input type="text" name="address" autocomplete="street-address" placeholder="Where should Day meet you?" required />
+            <input type="text" name="address" autocomplete="street-address" placeholder="Where should Day meet you? (Detroit &amp; suburbs)" required />
           </label>
 
           <div class="grid-2">
@@ -225,7 +225,7 @@
           <span class="ca-amt">$40</span>
         </a>
 
-        <p class="success-fine">Cash App: <strong>$sauxyDay</strong> &middot; Deposit applies to your service total.</p>
+        <p class="success-fine">Cash App: <a class="ca-link" href="https://cash.app/$sauxyDay" target="_blank" rel="noopener">$sauxyDay</a> &middot; Deposit applies to your service total.</p>
         <button type="button" class="btn btn-ghost" id="resetBtn">Book another</button>
       </div>
     </div>
@@ -237,7 +237,7 @@
       <div class="foot-brand">
         <span class="brand-mark big" aria-hidden="true"></span>
         <p class="foot-name">REAL ROADSIDE ASSISTANCE</p>
-        <p class="foot-tag">Mobile detailing &amp; roadside. We come to you.</p>
+        <p class="foot-tag">Mobile detailing &amp; roadside. We come to you across Detroit &amp; the surrounding suburbs.</p>
       </div>
       <div class="foot-col">
         <p class="foot-h">Book / Contact</p>
@@ -246,7 +246,7 @@
       </div>
       <div class="foot-col">
         <p class="foot-h">Deposit</p>
-        <p>$40 via Cash App <strong>$sauxyDay</strong></p>
+        <p>$40 via Cash App <a class="ca-link" href="https://cash.app/$sauxyDay" target="_blank" rel="noopener">$sauxyDay</a></p>
         <p class="muted">Applied to your service total.</p>
       </div>
     </div>

@@ -13,10 +13,10 @@
 
   // 3-hour windows used for every day
   var BLOCKS = [
-    { start: 8, label: "8:00 – 11:00 AM" },
-    { start: 11, label: "11:00 AM – 2:00 PM" },
-    { start: 14, label: "2:00 – 5:00 PM" },
-    { start: 17, label: "5:00 – 8:00 PM" }
+    { start: 8, label: "8 – 11 AM" },
+    { start: 11, label: "11 AM – 2 PM" },
+    { start: 14, label: "2 – 5 PM" },
+    { start: 17, label: "5 – 8 PM" }
   ];
 
   var SERVICES = {
@@ -45,7 +45,10 @@
       { id: "brakes", name: "Brake Pads & Rotors", tag: "Service", quote: true,
         sedanRange: "$75–$300", suvRange: "$100–$400",
         priceLabel: "$75–$300 Sedan · $100–$400 SUV",
-        desc: "Pads & rotors. Final price depends on how many axles — confirmed before any work." }
+        desc: "Pads & rotors. Final price depends on how many axles — confirmed before any work." },
+      { id: "misc", name: "Miscellaneous", tag: "Service", quote: true,
+        priceLabel: "TBD at consultation",
+        desc: "Something else you need? Tell us what's up — Day sets the price during a quick consultation." }
     ]
   };
 
@@ -58,7 +61,7 @@
 
   // ---- booking state ----
   var state = {
-    category: "detailing",
+    category: "roadside",
     serviceId: null,
     vehicle: "sedan",
     trunk: false,
@@ -98,10 +101,15 @@
         '</div></article>';
     }).join("");
     rds.innerHTML = SERVICES.roadside.map(function (s) {
-      var price = s.quote
-        ? '<div class="card-price"><b>' + s.sedanRange + '</b><span class="pill">Sedan</span>' +
-          '<span class="sep">/</span><b>' + s.suvRange + '</b><span class="pill">SUV</span></div>'
-        : '<div class="card-price"><b>' + money(s.price) + '</b><span class="pill">flat</span></div>';
+      var price;
+      if (s.quote && s.sedanRange) {
+        price = '<div class="card-price"><b>' + s.sedanRange + '</b><span class="pill">Sedan</span>' +
+          '<span class="sep">/</span><b>' + s.suvRange + '</b><span class="pill">SUV</span></div>';
+      } else if (s.quote) {
+        price = '<div class="card-price"><span class="pill quote-pill">' + s.priceLabel + '</span></div>';
+      } else {
+        price = '<div class="card-price"><b>' + money(s.price) + '</b><span class="pill">flat</span></div>';
+      }
       return '<article class="card">' +
         '<p class="card-tag">' + s.tag + '</p>' +
         '<h4 class="card-name">' + s.name + '</h4>' +
@@ -163,7 +171,7 @@
     var now = new Date();
     var wrap = $("#dayScroller");
     wrap.innerHTML = days.map(function (d, i) {
-      var label = i === 0 ? "Today" : (i === 1 ? "Tomorrow" : DOW[d.getDay()]);
+      var label = i === 0 ? "Today" : (i === 1 ? "Tmrw" : DOW[d.getDay()]);
       return '<button type="button" class="day-chip" data-day="' + i + '">' +
         '<span class="dow">' + label + '</span>' +
         '<span class="dnum">' + d.getDate() + '</span>' +
@@ -246,6 +254,7 @@
      ========================================================= */
   function goToStep(n) {
     state.step = n;
+    clearErrors();
     $all(".step").forEach(function (f) {
       f.classList.toggle("is-active", parseInt(f.getAttribute("data-step"), 10) === n);
     });
@@ -261,7 +270,7 @@
   }
 
   function validateStep(n) {
-    $("#formError").hidden = true;
+    clearErrors();
     if (n === 1) {
       if (!state.serviceId) { flash("Pick a service to continue."); return false; }
       return true;
@@ -273,23 +282,76 @@
       return true;
     }
     if (n === 3) {
-      var ok = true;
-      $all("#bookingForm .step[data-step='3'] [required]").forEach(function (input) {
+      var f = $("#bookingForm");
+      var ok = true, firstMsg = null;
+      function check(name, test, msg) {
+        var input = f.elements[name];
+        if (!input) return;
         var fld = input.closest(".fld");
-        var valid = input.checkValidity() && input.value.trim() !== "";
-        if (fld) fld.classList.toggle("invalid", !valid);
-        if (!valid) ok = false;
-      });
-      if (!ok) flash("Fill in the highlighted fields.");
+        var valid = test(input.value.trim());
+        if (fld) { fld.classList.toggle("invalid", !valid); setFieldMsg(fld, valid ? "" : msg); }
+        if (!valid) { ok = false; if (!firstMsg) firstMsg = msg; }
+      }
+      check("name", function (v) { return v.length >= 2; }, "Please enter your name.");
+      check("phone", isValidUSPhone, "Enter a valid US phone number — 10 digits, e.g. (313) 555-0142.");
+      check("email", isValidEmail, "That email doesn’t look right — check for a typo.");
+      check("address", function (v) { return v.length >= 4; }, "Add the address where Day should meet you.");
+      check("vehicle_details", function (v) { return v.length >= 2; }, "Tell us your vehicle — year, make & model.");
+      if (!ok) flash("Please double-check the highlighted fields below.");
       return ok;
     }
     return true;
   }
 
+  /* ---- US phone + email validation helpers ---- */
+  function digitsOnly(v) { return (v || "").replace(/\D/g, ""); }
+  function usPhoneDigits(v) {
+    var d = digitsOnly(v);
+    if (d.length === 11 && d.charAt(0) === "1") d = d.slice(1);
+    return d;
+  }
+  function isValidUSPhone(v) {
+    var d = usPhoneDigits(v);
+    // 10 digits; NANP rules: area code & exchange both start 2-9
+    return d.length === 10 && /^[2-9]\d{2}[2-9]\d{6}$/.test(d);
+  }
+  function formatUSPhone(v) {
+    var d = usPhoneDigits(v);
+    if (d.length !== 10) return v;
+    return "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6);
+  }
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  }
+  function setFieldMsg(fld, msg) {
+    var e = fld.querySelector(".fld-err");
+    if (!msg) { if (e) e.remove(); return; }
+    if (!e) { e = document.createElement("span"); e.className = "fld-err"; fld.appendChild(e); }
+    e.textContent = msg;
+  }
+
+  function clearErrors() {
+    $all(".form-error").forEach(function (e) { e.hidden = true; e.classList.remove("shake"); });
+  }
+
+  // Show an error message on the CURRENTLY ACTIVE step (above its buttons),
+  // so it's always visible — not buried in a hidden fieldset.
   function flash(msg) {
-    var el = $("#formError");
+    var active = $(".step.is-active");
+    var el = active ? active.querySelector(".form-error") : $("#formError");
+    if (active && !el) {
+      el = document.createElement("p");
+      el.className = "form-error";
+      el.setAttribute("role", "alert");
+      active.insertBefore(el, active.querySelector(".step-actions"));
+    }
+    if (!el) return;
     el.textContent = msg;
     el.hidden = false;
+    el.classList.remove("shake");
+    void el.offsetWidth;            // restart the shake animation
+    el.classList.add("shake");
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   /* =========================================================
@@ -317,7 +379,7 @@
     html += row("Vehicle", val(f, "vehicle_details") + (val(f, "vehicle_color") ? " · " + val(f, "vehicle_color") : ""));
     if (s && s.quote) {
       html += row("Service total", "Quoted on site", "total");
-      html += row("Est. range", s.priceLabel);
+      html += row("Pricing", s.priceLabel);
     } else {
       html += row("Service total", money(price), "total");
     }
@@ -347,7 +409,7 @@
     fd.append("Service total", (s && s.quote) ? ("Quote — " + s.priceLabel) : money(servicePrice()));
     fd.append("Deposit", money(DEPOSIT));
     fd.append("Name", val(f, "name"));
-    fd.append("Phone", val(f, "phone"));
+    fd.append("Phone", formatUSPhone(val(f, "phone")));
     fd.append("Email", val(f, "email"));
     fd.append("Service address", val(f, "address"));
     fd.append("Vehicle details", val(f, "vehicle_details"));
@@ -401,7 +463,7 @@
     var form = $("#bookingForm");
     form.hidden = false;
     form.reset();
-    state = { category: "detailing", serviceId: null, vehicle: "sedan", trunk: false,
+    state = { category: "roadside", serviceId: null, vehicle: "sedan", trunk: false,
       timing: null, dayIndex: null, block: null, step: 1 };
     // reset visuals
     $all(".seg-btn[data-cat]").forEach(function (b, i) { b.classList.toggle("active", i === 0); });
@@ -472,13 +534,21 @@
     $("#bookingForm").addEventListener("submit", onSubmit);
     $("#resetBtn").addEventListener("click", resetAll);
 
-    // clear field error on input
+    // clear a field's error as soon as the user edits it
     $all("#bookingForm input, #bookingForm textarea").forEach(function (el) {
       el.addEventListener("input", function () {
         var fld = el.closest(".fld");
-        if (fld) fld.classList.remove("invalid");
+        if (fld) { fld.classList.remove("invalid"); setFieldMsg(fld, ""); }
       });
     });
+
+    // tidy the phone into (XXX) XXX-XXXX when the user leaves the field
+    var phoneEl = $("#bookingForm").elements["phone"];
+    if (phoneEl) {
+      phoneEl.addEventListener("blur", function () {
+        if (isValidUSPhone(phoneEl.value)) phoneEl.value = formatUSPhone(phoneEl.value);
+      });
+    }
   }
 
   if (document.readyState === "loading") {
