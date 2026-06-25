@@ -1,0 +1,37 @@
+name: Deploy to FTP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # allows manual runs from the Actions tab
+
+concurrency:
+  group: ftp-deploy         # never run two deploys at once
+  cancel-in-progress: true
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 212.85.28.219
+          username: u822040025.realroadsideassistance.com
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./
+          server-dir: ./
+          # Don't upload repo/CI plumbing to the web host
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/README.md
+            **/CNAME
+            **/_t.js
+            **/.DS_Store
