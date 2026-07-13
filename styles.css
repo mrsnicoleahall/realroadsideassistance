@@ -76,11 +76,15 @@ em{font-style:normal}
   font-size:.86rem;line-height:1.5;color:var(--gray-2);margin-bottom:.9rem;
 }
 .parts-check{align-items:flex-start;color:var(--white);font-weight:600}
-.parts-check + .parts-check{margin-top:.7rem}
 .parts-check input{margin-top:1px}
-.tc-link{color:var(--red-bright);font-weight:700;text-decoration:underline;text-underline-offset:2px}
-.tc-link:hover{color:#fff}
 .parts-notice.invalid{box-shadow:0 0 0 1px var(--red),0 8px 30px -12px var(--red-glow)}
+
+/* terms agreement — quiet, matches the rest of the form */
+.terms-check{align-items:flex-start;margin:1.2rem 0 .2rem}
+.terms-check input{margin-top:1px}
+.terms-check.invalid span{color:var(--red-bright)}
+.tc-link{color:var(--gray-2);text-decoration:underline;text-underline-offset:2px}
+.tc-link:hover{color:var(--white)}
 
 /* ---------- top bar ---------- */
 .topbar{

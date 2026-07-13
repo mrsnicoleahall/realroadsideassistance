@@ -306,17 +306,16 @@
       check("address", function (v) { return v.length >= 4; }, "Add the address where Day should meet you.");
       check("vehicle_details", function (v) { return v.length >= 2; }, "Tell us your vehicle — year, make & model.");
       var acks = [
-        { name: "parts_ack", msg: "Please confirm you understand the extra-hour parts policy." },
-        { name: "terms_ack", msg: "Please agree to the Terms & Conditions to continue." }
+        { name: "parts_ack", box: ".parts-notice", msg: "Please confirm you understand the extra-hour parts policy." },
+        { name: "terms_ack", box: ".terms-check", msg: "Please agree to the Terms & Conditions to continue." }
       ];
-      var notice = f.elements["parts_ack"] && f.elements["parts_ack"].closest(".parts-notice");
-      var acksOk = true;
       acks.forEach(function (a) {
         var el = f.elements[a.name];
-        if (el && !el.checked) { acksOk = false; if (!firstMsg) firstMsg = a.msg; }
+        if (!el) return;
+        var box = el.closest(a.box);
+        if (!el.checked) { ok = false; if (!firstMsg) firstMsg = a.msg; }
+        if (box) box.classList.toggle("invalid", !el.checked);
       });
-      if (notice) notice.classList.toggle("invalid", !acksOk);
-      if (!acksOk) ok = false;
       if (!ok) flash(firstMsg || "Please double-check the highlighted fields below.");
       return ok;
     }
