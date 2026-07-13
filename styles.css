@@ -62,20 +62,25 @@ em{font-style:normal}
 .btn-ghost{background:transparent;color:var(--white);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--white);background:rgba(255,255,255,.04)}
 
-/* ---------- parts notice ---------- */
-.parts-bar{
-  position:relative;z-index:101;
-  display:flex;align-items:center;gap:.7rem;
-  padding:.7rem clamp(1rem,4vw,2.5rem);
-  background:linear-gradient(90deg,var(--red-deep),var(--red));
-  border-bottom:1px solid rgba(0,0,0,.25);
+/* ---------- parts notice (booking step) ---------- */
+.parts-notice{
+  margin:.4rem 0 .2rem;padding:1.1rem 1.2rem;
+  background:var(--panel-2);
+  border:1px solid var(--red);border-left-width:3px;border-radius:10px;
 }
-.parts-icon{font-size:1.05rem;line-height:1;flex-shrink:0}
-.parts-bar p{
-  font-size:.82rem;line-height:1.4;color:#fff;letter-spacing:.01em;
-  max-width:var(--max);margin:0 auto 0 0;
+.parts-notice-head{
+  font-weight:700;color:var(--white);font-size:.98rem;
+  display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;
 }
-.parts-bar strong{font-weight:700}
+.parts-notice-body{
+  font-size:.86rem;line-height:1.5;color:var(--gray-2);margin-bottom:.9rem;
+}
+.parts-check{align-items:flex-start;color:var(--white);font-weight:600}
+.parts-check + .parts-check{margin-top:.7rem}
+.parts-check input{margin-top:1px}
+.tc-link{color:var(--red-bright);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.tc-link:hover{color:#fff}
+.parts-notice.invalid{box-shadow:0 0 0 1px var(--red),0 8px 30px -12px var(--red-glow)}
 
 /* ---------- top bar ---------- */
 .topbar{
@@ -350,6 +355,23 @@ section{padding:clamp(3.5rem,9vw,7rem) clamp(1rem,4vw,2.5rem)}
 .ca-amt{font-family:"Space Mono",monospace;font-size:1.3rem;font-weight:700}
 .success-fine{font-size:.84rem;color:var(--gray);margin-bottom:1.6rem}
 .success-fine strong{color:var(--white)}
+
+/* ---------- legal page ---------- */
+.legal{padding:clamp(2.5rem,6vw,4.5rem) clamp(1rem,4vw,2.5rem) clamp(2rem,5vw,3.5rem)}
+.legal-inner{max-width:760px;margin:0 auto}
+.legal-title{font-family:"Anton",sans-serif;font-size:clamp(2.2rem,7vw,3.4rem);
+  letter-spacing:.02em;line-height:.98;margin:.4rem 0 .9rem}
+.legal-meta{color:var(--gray);font-size:.86rem;line-height:1.5;
+  padding-bottom:1.4rem;border-bottom:1px solid var(--line)}
+.legal-lead{color:var(--gray-2);font-size:1.05rem;line-height:1.6;margin:1.6rem 0}
+.legal-block{margin:1.8rem 0}
+.legal-block h2{font-family:"Archivo",sans-serif;font-weight:900;font-size:1.15rem;
+  color:var(--white);margin-bottom:.6rem;letter-spacing:.01em}
+.legal-block p{color:var(--gray-2);font-size:.96rem;line-height:1.65}
+.legal-block strong{color:var(--white)}
+.legal-fine{color:var(--gray);font-size:.82rem;font-style:italic;
+  margin:2rem 0 2.2rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.legal-back{display:inline-flex}
 
 /* ---------- footer ---------- */
 .footer{background:#070708;border-top:1px solid var(--line);

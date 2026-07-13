@@ -305,7 +305,19 @@
       check("email", isValidEmail, "That email doesn’t look right — check for a typo.");
       check("address", function (v) { return v.length >= 4; }, "Add the address where Day should meet you.");
       check("vehicle_details", function (v) { return v.length >= 2; }, "Tell us your vehicle — year, make & model.");
-      if (!ok) flash("Please double-check the highlighted fields below.");
+      var acks = [
+        { name: "parts_ack", msg: "Please confirm you understand the extra-hour parts policy." },
+        { name: "terms_ack", msg: "Please agree to the Terms & Conditions to continue." }
+      ];
+      var notice = f.elements["parts_ack"] && f.elements["parts_ack"].closest(".parts-notice");
+      var acksOk = true;
+      acks.forEach(function (a) {
+        var el = f.elements[a.name];
+        if (el && !el.checked) { acksOk = false; if (!firstMsg) firstMsg = a.msg; }
+      });
+      if (notice) notice.classList.toggle("invalid", !acksOk);
+      if (!acksOk) ok = false;
+      if (!ok) flash(firstMsg || "Please double-check the highlighted fields below.");
       return ok;
     }
     return true;

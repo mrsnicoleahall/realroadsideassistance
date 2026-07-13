@@ -17,12 +17,6 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- ===== PARTS NOTICE ===== -->
-  <div class="parts-bar" role="note">
-    <span class="parts-icon" aria-hidden="true">🔧</span>
-    <p><strong>Bring your own parts — we love it!</strong> Just a heads-up: if your parts don&rsquo;t fit your vehicle, are the wrong ones, or arrive broken, you&rsquo;ll be charged an additional hour of labor.</p>
-  </div>
-
   <!-- ===== TOP BAR ===== -->
   <header class="topbar" id="top">
     <a href="#top" class="brand">
@@ -196,6 +190,19 @@
             <span>Notes <em>(optional)</em></span>
             <textarea name="notes" rows="3" placeholder="Anything Day should know?"></textarea>
           </label>
+
+          <div class="parts-notice">
+            <p class="parts-notice-head"><span aria-hidden="true">🔧</span> Bringing your own parts?</p>
+            <p class="parts-notice-body">We love when customers bring their own parts! Just a heads-up: if your parts don&rsquo;t fit your vehicle, are the wrong ones, or arrive broken, you&rsquo;ll be charged an additional hour of labor.</p>
+            <label class="check parts-check">
+              <input type="checkbox" name="parts_ack" required />
+              <span>I understand that if my parts don&rsquo;t fit, are the wrong ones, or arrive broken, I&rsquo;ll be charged an additional hour of labor.</span>
+            </label>
+            <label class="check parts-check">
+              <input type="checkbox" name="terms_ack" required />
+              <span>By submitting this form, I agree to the <a class="tc-link" href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</span>
+            </label>
+          </div>
 
           <div class="step-actions">
             <button type="button" class="btn btn-ghost prev" data-prev>Back</button>
