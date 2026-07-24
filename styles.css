@@ -332,6 +332,8 @@ section{padding:clamp(3.5rem,9vw,7rem) clamp(1rem,4vw,2.5rem)}
 .deposit-note{background:rgba(236,11,30,.07);border:1px solid rgba(236,11,30,.3);border-radius:6px;
   padding:1rem 1.1rem;font-size:.9rem;color:var(--gray-2)}
 .deposit-note strong{color:var(--white)}
+.deposit-note .cancel-note{margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(236,11,30,.18);
+  font-size:.82rem;color:var(--gray)}
 .form-error{color:#fff;background:rgba(236,11,30,.15);border:1px solid var(--red);
   font-size:.9rem;font-weight:600;margin-top:1rem;padding:.7rem .95rem;border-radius:6px;text-align:center}
 .form-error.shake{animation:shake .42s var(--ease)}
